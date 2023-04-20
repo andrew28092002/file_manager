@@ -3,10 +3,12 @@
 </script>
 
 <template>
-  <main>
-   
+  <main>  
+    <div class="content">
+      <div class="container"></div>
+    </div>
   </main>
 </template>
 
-<style scoped>
+<style scoped ty>
 </style>
