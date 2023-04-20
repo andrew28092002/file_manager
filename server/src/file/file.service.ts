@@ -1,19 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { resolve, sep } from 'path';
+import { createPath } from 'src/features/createPath';
 
 @Injectable()
 export class FileService {
   createFile(path: string, file: Express.Multer.File) {
     try {
       const fileName = file.originalname;
-      const filePath = resolve(__dirname, '..', 'static', path);
+      const filePath = createPath(path);
 
       if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath, { recursive: true });
       }
 
-      fs.writeFileSync(resolve(filePath, fileName), file.buffer);
+      fs.writeFileSync(createPath(filePath, fileName), file.buffer);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -21,9 +22,7 @@ export class FileService {
 
   getFile(path: string) {
     try {
-      const fileContent = fs.readFileSync(
-        resolve(__dirname, '..', 'static', path),
-      );
+      const fileContent = fs.readFileSync(createPath(path));
 
       return fileContent;
     } catch (e) {
@@ -33,10 +32,9 @@ export class FileService {
 
   copyFile(pathFrom: string, pathTo: string) {
     try {
-      fs.copyFileSync(
-        resolve(__dirname, '..', 'static', pathFrom),
-        resolve(__dirname, '..', 'static', pathTo),
-      );
+      const fileName = pathFrom.split(sep)[0];
+
+      fs.copyFileSync(createPath(pathFrom), createPath(pathTo, fileName));
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -44,19 +42,18 @@ export class FileService {
 
   moveFile(pathFrom: string, pathTo: string) {
     try {
-      fs.renameSync(
-        resolve(__dirname, '..', 'static', pathFrom),
-        resolve(__dirname, '..', 'static', pathTo),
-      );
+      const fileName = pathFrom.split(sep)[0];
+
+      fs.renameSync(createPath(pathFrom), createPath(pathTo, fileName));
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   deleteFile(path: string) {
-    try{
-      fs.unlinkSync(resolve(__dirname, '..', 'static', path))
-    } catch(e) {
+    try {
+      fs.unlinkSync(createPath(path));
+    } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

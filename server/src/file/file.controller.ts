@@ -13,12 +13,12 @@ import { PathFromToDto } from './dto/pathFromTo.dto';
 export class FileController {
   constructor(private fileService: FileService) {}
 
-  @Post()
+  @Post('/get')
   getFile(@Body('path') path: string) {
     return this.fileService.getFile(path);
   }
 
-  @Post()
+  @Post('/create')
   @UseInterceptors(FileInterceptor('file'))
   createFile(
     @UploadedFile() file: Express.Multer.File,

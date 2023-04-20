@@ -6,27 +6,28 @@ import { PathFromToDto } from './dto/pathFromTo.dto';
 export class FolderController {
   constructor(private folderService: FolderService) {}
 
-  @Post()
+  @Post('/create')
   createFolder(@Body('path') path: string) {
     return this.folderService.createFolder(path);
   }
 
-  @Get('/folder/:path')
+  @Post('/get')
   getFolder(@Param() path: string) {
     return this.folderService.getFolder(path);
   }
 
-  @Post()
-  copyFolder(
-    @Body() { pathFrom, pathTo }: PathFromToDto,
-  ) {
+  @Post('/copy')
+  copyFolder(@Body() { pathFrom, pathTo }: PathFromToDto) {
     return this.folderService.copyFolder(pathFrom, pathTo);
   }
 
-  @Post()
-  moveFolder(
-    @Body() { pathFrom, pathTo }: PathFromToDto,
-  ) {
+  @Post('/move')
+  moveFolder(@Body() { pathFrom, pathTo }: PathFromToDto) {
     return this.folderService.moveFolder(pathFrom, pathTo);
+  }
+
+  @Post('/delete')
+  deleteFolder(@Body('path') path: string) {
+    return this.folderService.deleteFolder(path);
   }
 }
