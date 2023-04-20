@@ -52,4 +52,12 @@ export class FileService {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  deleteFile(path: string) {
+    try{
+      fs.unlinkSync(resolve(__dirname, '..', 'static', path))
+    } catch(e) {
+      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

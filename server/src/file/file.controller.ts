@@ -1,8 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
-  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -37,5 +35,10 @@ export class FileController {
   @Post('/move')
   moveFile(@Body() { pathFrom, pathTo }: PathFromToDto) {
     return this.fileService.moveFile(pathFrom, pathTo);
+  }
+
+  @Post('/delete')
+  deleteFile(@Body('path') path: string){
+    return this.fileService.deleteFile(path)
   }
 }
