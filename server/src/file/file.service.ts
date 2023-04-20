@@ -32,7 +32,7 @@ export class FileService {
 
   copyFile(pathFrom: string, pathTo: string) {
     try {
-      const fileName = pathFrom.split(sep)[0];
+      const fileName = pathFrom.split(sep).at(-1);
 
       fs.copyFileSync(createPath(pathFrom), createPath(pathTo, fileName));
     } catch (e) {
@@ -42,8 +42,8 @@ export class FileService {
 
   moveFile(pathFrom: string, pathTo: string) {
     try {
-      const fileName = pathFrom.split(sep)[0];
-
+      const fileName = pathFrom.split(sep).at(-1);
+      
       fs.renameSync(createPath(pathFrom), createPath(pathTo, fileName));
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -12,7 +12,7 @@ export class FolderController {
   }
 
   @Post('/get')
-  getFolder(@Param() path: string) {
+  getFolder(@Body('path') path: string) {
     return this.folderService.getFolder(path);
   }
 
