@@ -15,8 +15,8 @@ import { PathFromToDto } from './dto/pathFromTo.dto';
 export class FileController {
   constructor(private fileService: FileService) {}
 
-  @Get(':path')
-  getFile(@Param() path: string) {
+  @Post()
+  getFile(@Body('path') path: string) {
     return this.fileService.getFile(path);
   }
 
@@ -29,12 +29,12 @@ export class FileController {
     return this.fileService.createFile(path, file);
   }
 
-  @Post()
+  @Post('/copy')
   copyFile(@Body() { pathFrom, pathTo }: PathFromToDto) {
     return this.fileService.copyFile(pathFrom, pathTo);
   }
 
-  @Post()
+  @Post('/move')
   moveFile(@Body() { pathFrom, pathTo }: PathFromToDto) {
     return this.fileService.moveFile(pathFrom, pathTo);
   }

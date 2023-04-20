@@ -21,7 +21,9 @@ export class FileService {
 
   getFile(path: string) {
     try {
-      const fileContent = fs.readFileSync(path);
+      const fileContent = fs.readFileSync(
+        resolve(__dirname, '..', 'static', path),
+      );
 
       return fileContent;
     } catch (e) {
@@ -31,17 +33,23 @@ export class FileService {
 
   copyFile(pathFrom: string, pathTo: string) {
     try {
-      fs.copyFileSync(pathFrom, pathTo);
+      fs.copyFileSync(
+        resolve(__dirname, '..', 'static', pathFrom),
+        resolve(__dirname, '..', 'static', pathTo),
+      );
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  moveFile(pathFrom: string, pathTo: string){
-    try{
-        fs.renameSync(pathFrom, pathTo)
-    } catch(e) {
-        throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  moveFile(pathFrom: string, pathTo: string) {
+    try {
+      fs.renameSync(
+        resolve(__dirname, '..', 'static', pathFrom),
+        resolve(__dirname, '..', 'static', pathTo),
+      );
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
