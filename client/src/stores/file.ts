@@ -1,23 +1,25 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
+import axios from 'axios'
 
 export const useFileStore = defineStore("fileStore", () => {
-  const leftPath = ref("c");
-  const rightPath = ref("c");
-  const choosenFile = ref("c");
+  const leftPath = ref("");
+  const rightPath = ref("");
+  const choosenFile = ref("");
   const leftFiles = ref([]);
   const rightFiles = ref([]);
-
+  
   const watchLeft = watch(
     () => leftPath,
     async () => {
       const files = await getFiles(leftPath.value);
+      console.log(files)
       leftFiles.value = files;
     }
   );
 
   const watchRight = watch(
-    () => rightFiles,
+    () => rightPath,
     async () => {
       const files = await getFiles(rightPath.value);
       leftFiles.value = files;
@@ -25,16 +27,11 @@ export const useFileStore = defineStore("fileStore", () => {
   );
 
   const getFiles = async (path: string) => {
-    const response = await fetch(import.meta.env.FOLDER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(path),
+    const response = await axios.post(import.meta.env.VITE_FOLDER_URL + "/get", {
+      path,
     });
 
-    const files = await response.json();
-    return files;
+    return response.data;
   };
 
   const chooseFile = (path: string) => {
@@ -55,6 +52,7 @@ export const useFileStore = defineStore("fileStore", () => {
     leftFiles,
     rightFiles,
     choosenFile,
+    getFiles,
     chooseFile,
     changeLeftPath,
     changeRightPath,

@@ -8,7 +8,12 @@ const fileStore = useFileStore();
 <template>
   <div class="content">
     <div class="container">
-      <Items class="card" @dbClick="fileStore.changeLeftPath" />
+      <Items
+        class="card"
+        @dbClick="fileStore.changeLeftPath"
+        :path="fileStore.leftPath"
+        :files="fileStore.leftFiles"
+      />
       <Items class="card" @dbClick="fileStore.changeLeftPath" />
     </div>
     <div class="footer">
