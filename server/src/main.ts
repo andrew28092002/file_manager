@@ -4,7 +4,9 @@ import { initFolder } from './features/initFolders';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-  initFolder()
+  await app.listen(3000, () => {
+    initFolder()
+    console.log('SERVER STARTED')
+  });
 }
 bootstrap();
