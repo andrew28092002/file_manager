@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Col from './components/Col.vue';
+import Items from './components/Items.vue';
 </script>
 
 <template>
   <div class="content">
     <div class="container">
-      <Col class="card"/>
-      <Col class="card"/>
+      <Items class="card"/>
+      <Items class="card"/>
     </div>
     <div class="footer">
       <button>Создать</button>
