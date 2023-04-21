@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-    extensions: [".js", ".vue", ".json", ".scss"],
+    extensions: [".js", ".vue", ".json", ".scss", ".ts"],
     alias: {
       vue$: "vue/dist/vue.esm.js",
       "@": resolve("src"),

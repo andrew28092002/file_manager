@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import Items from './components/Items.vue';
+import Items from "./components/Items.vue";
+import { useFileStore } from "./stores/file";
+
+const fileStore = useFileStore();
 </script>
 
 <template>
   <div class="content">
     <div class="container">
-      <Items class="card"/>
-      <Items class="card"/>
+      <Items class="card" @dbClick="fileStore.changeLeftPath" />
+      <Items class="card" @dbClick="fileStore.changeLeftPath" />
     </div>
     <div class="footer">
       <button>Создать</button>
@@ -18,7 +21,7 @@ import Items from './components/Items.vue';
 </template>
 
 <style scoped lang="scss">
-.content{
+.content {
   height: 100%;
   display: flex;
   justify-content: center;
@@ -34,7 +37,7 @@ import Items from './components/Items.vue';
   flex-flow: row wrap;
 }
 
-.footer{
+.footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -43,12 +46,12 @@ import Items from './components/Items.vue';
   background-color: transparent;
 }
 
-.card:last-child{
+.card:last-child {
   background-color: red;
   margin: 0;
 }
 
-button{
+button {
   border-radius: 0;
   border: 1px solid #000;
   padding: 5px 10px;

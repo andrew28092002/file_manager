@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import Item from './Item.vue';
+
+defineProps(['dbClick'])
 </script>
 
 <style scoped lang="scss">

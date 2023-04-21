@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-export const useFileStore = defineStore("file", () => {
+export const useFileStore = defineStore("fileStore", () => {
   const leftPath = ref("c");
   const rightPath = ref("c");
   const choosenFile = ref("c");
