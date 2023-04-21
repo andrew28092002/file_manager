@@ -25,7 +25,7 @@ export const useFileStore = defineStore("fileStore", () => {
   );
 
   const getFiles = async (path: string) => {
-    const response = await fetch("", {
+    const response = await fetch(import.meta.env.FOLDER_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -52,6 +52,8 @@ export const useFileStore = defineStore("fileStore", () => {
   return {
     leftPath,
     rightPath,
+    leftFiles,
+    rightFiles,
     choosenFile,
     chooseFile,
     changeLeftPath,
