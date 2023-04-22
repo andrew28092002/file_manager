@@ -1,13 +1,20 @@
 <template>
-  <div class="content" v-if="leftStore.files.length > 0">
+  <div class="content">
     <div class="container">
       <Items
+        v-if="leftStore.files.length > 0"
         class="card"
         @dbClick="leftStore.chooseNewPath"
         :path="leftStore.path"
         :files="leftStore.files"
       />
-      <!-- <Items class="card" /> -->
+      <Items
+        v-if="rightStore.files.length > 0"
+        class="card"
+        @dbClick="rightStore.chooseNewPath"
+        :path="rightStore.path"
+        :files="rightStore.files"
+      />
     </div>
     <div class="footer">
       <button>Создать</button>
@@ -20,11 +27,14 @@
 
 <script setup lang="ts">
 import Items from "./components/Items.vue";
-import { useFileStore } from "./stores/file";
+import { useLeftFilesStore } from "./stores/leftFiles";
+import { useRightFilesStore } from "./stores/rightFiles";
 
-const leftStore = useFileStore();
-leftStore.chooseNewPath('c')
+const leftStore = useLeftFilesStore();
+leftStore.chooseNewPath("c");
 
+const rightStore = useRightFilesStore();
+rightStore.chooseNewPath("c");
 </script>
 
 <style scoped lang="scss">
