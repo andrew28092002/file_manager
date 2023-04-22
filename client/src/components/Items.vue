@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header" @dblclick="$emit('dbClick', 'c')">
+    <div class="header">
       <select name="" id="" class="disk">
         <option value="c">c</option>
         <option value="d">d</option>
@@ -21,7 +21,7 @@
 import { toRefs } from "vue";
 import Item from "./Item.vue";
 
-defineEmits(["dbClick"]);
+defineEmits(["choose"]);
 
 const props = defineProps<{
   path: string;

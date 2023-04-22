@@ -4,7 +4,7 @@
       <Items
         v-if="leftStore.files.length > 0"
         class="card"
-        @dbClick="leftStore.chooseNewPath"
+        @choose="leftStore.chooseNewPath"
         :path="leftStore.path"
         :files="leftStore.files"
       />
