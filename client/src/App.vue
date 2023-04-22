@@ -11,7 +11,7 @@
       <Items
         v-if="rightStore.files.length > 0"
         class="card"
-        @dbClick="rightStore.chooseNewPath"
+        @choose="rightStore.chooseNewPath"
         :path="rightStore.path"
         :files="rightStore.files"
       />
@@ -34,7 +34,8 @@ const leftStore = useLeftFilesStore();
 leftStore.chooseNewPath("c");
 
 const rightStore = useRightFilesStore();
-rightStore.chooseNewPath("c");
+rightStore.chooseNewPath("c/documents");
+
 </script>
 
 <style scoped lang="scss">

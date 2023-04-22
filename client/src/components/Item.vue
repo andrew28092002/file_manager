@@ -41,7 +41,6 @@ const time = computed({
   set() {},
 });
 
-console.log(name.value, size.value, time.value);
 </script>
 
 <style scoped lang="scss">

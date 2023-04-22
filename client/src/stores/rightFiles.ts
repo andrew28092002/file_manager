@@ -2,7 +2,7 @@ import { ref, watch } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 
-export const useRightFilesStore = defineStore("fileStore", () => {
+export const useRightFilesStore = defineStore("rightFilesStore", () => {
   const path = ref("");
   const files = ref<
     {
