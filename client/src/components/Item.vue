@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="name">{{ name }}</div>
-    <div class="type">type</div>
+    <div class="type">{{ type }}</div>
     <div class="size">{{ size }}</div>
     <div class="date">{{ time }}</div>
   </div>
@@ -34,13 +34,25 @@ const size = computed({
   set() {},
 });
 
+const type = computed({
+  get() {
+    const splittedName = file?.value?.name.split(".");
+
+    if (splittedName?.length) {
+      return splittedName.length > 1
+        ? splittedName[splittedName.length - 1]
+        : "directory";
+    } else return "type";
+  },
+  set() {},
+});
+
 const time = computed({
   get() {
     return file?.value?.time?.toLocaleString() || "time";
   },
   set() {},
 });
-
 </script>
 
 <style scoped lang="scss">
