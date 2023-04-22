@@ -27,7 +27,7 @@ export class FolderService {
       folderInner.forEach((file) => {
         const stat = fs.statSync(createPath(path, file));
 
-        const info = { file };
+        const info = { name: file };
         if (!stat.isDirectory()) {
           info['time'] = Number(stat.mtime);
           info['size'] = stat.size;
