@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">
+    <div class="header" @dblclick="$emit('dbClick', 'c')">
       <select name="" id="" class="disk">
         <option value="c">c</option>
         <option value="d">d</option>
@@ -10,14 +10,29 @@
         <p>c/games/text.txt</p>
       </div>
     </div>
-    <Item />
+    <div class="files">
+      <Item />
+      <Item v-for="file in files" :file="file" :key="file.name" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Item from './Item.vue';
+import { toRefs } from "vue";
+import Item from "./Item.vue";
 
-defineProps(['dbClick'])
+defineEmits(["dbClick"]);
+
+const props = defineProps<{
+  path: string;
+  files: {
+    name: string;
+    size: number;
+    time?: Date;
+  }[];
+}>();
+
+const { path, files } = toRefs(props);
 </script>
 
 <style scoped lang="scss">
@@ -40,7 +55,14 @@ defineProps(['dbClick'])
   display: flex;
   justify-content: space-around;
 
-  padding: 5px
+  padding: 5px;
 }
 
+.files {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
 </style>

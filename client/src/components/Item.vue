@@ -1,25 +1,50 @@
 <template>
-  <div class="files">
-    <div class="row">
-      <div class="name">name</div>
-      <div class="type">type</div>
-      <div class="size">size</div>
-      <div class="date">date</div>
-    </div>
+  <div class="row">
+    <div class="name">{{ name }}</div>
+    <div class="type">type</div>
+    <div class="size">{{ size }}</div>
+    <div class="date">{{ time }}</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed, toRefs } from "vue";
+
+const props = defineProps<{
+  file?: {
+    name: string;
+    size: number;
+    time?: Date;
+  };
+}>();
+
+const { file } = toRefs(props);
+
+const name = computed({
+  get() {
+    return file?.value?.name || "name";
+  },
+  set() {},
+});
+
+const size = computed({
+  get() {
+    return file?.value?.size || "size";
+  },
+  set() {},
+});
+
+const time = computed({
+  get() {
+    return file?.value?.time?.toLocaleString() || "time";
+  },
+  set() {},
+});
+
+console.log(name.value, size.value, time.value);
+</script>
 
 <style scoped lang="scss">
-.files {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
 .row {
   display: flex;
   justify-content: space-around;
