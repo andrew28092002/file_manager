@@ -7,7 +7,22 @@
         <option value="e">e</option>
       </select>
       <div class="path">
-        <p>{{ path }}</p>
+        <a
+          href="#"
+          v-for="(item, index) in path.split('/')"
+          @click="
+            $emit(
+              'choose',
+              path
+                .split('/')
+                .slice(0, index + 1)
+                .join('/')
+            )
+          "
+          >{{
+            `${item}${index === path.split("/").length - 1 ? "" : "/"} `
+          }}</a
+        >
       </div>
     </div>
     <div class="files">
@@ -23,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from "vue";
+import { computed, toRefs } from "vue";
 import Item from "./Item.vue";
 
 defineEmits(["choose"]);
@@ -38,6 +53,13 @@ const props = defineProps<{
 }>();
 
 const { path, files } = toRefs(props);
+
+const linkedPath = computed({
+  get() {
+    return path;
+  },
+  set() {},
+});
 </script>
 
 <style scoped lang="scss">

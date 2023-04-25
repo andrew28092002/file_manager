@@ -9,3 +9,7 @@
     background-color: rgb(224, 230, 230);
     overflow: hidden;
 }
+
+a{
+    text-decoration: none;
+}
