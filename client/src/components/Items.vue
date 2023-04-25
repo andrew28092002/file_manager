@@ -19,9 +19,7 @@
                 .join('/')
             )
           "
-          >{{
-            `${item}${index === path.split("/").length - 1 ? "" : "/"} `
-          }}</a
+          >{{ `${item}${index === path.split("/").length - 1 ? "" : "/"} ` }}</a
         >
       </div>
     </div>
@@ -31,14 +29,24 @@
         v-for="file in files"
         :file="file"
         :key="file.name"
-        @click="$emit('choose', `${path}/${file.name}`)"
+        @click="
+          path.split('/')[path.split('/').length - 1].length == 1
+            ? $emit('choose', `${path}/${file.name}`)
+            : $emit(
+                'choose',
+                `${path
+                  .split('/')
+                  .filter((item) => item.split('.').length === 1)
+                  .join('/')}/${file.name}`
+              )
+        "
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from "vue";
+import { toRefs } from "vue";
 import Item from "./Item.vue";
 
 defineEmits(["choose"]);
@@ -53,13 +61,6 @@ const props = defineProps<{
 }>();
 
 const { path, files } = toRefs(props);
-
-const linkedPath = computed({
-  get() {
-    return path;
-  },
-  set() {},
-});
 </script>
 
 <style scoped lang="scss">

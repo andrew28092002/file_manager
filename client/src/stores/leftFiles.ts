@@ -30,9 +30,14 @@ export const useLeftFilesStore = defineStore("leftFilesStore", () => {
   };
 
   watch(path, async () => {
-    const filesFromServer = await getFiles(path.value);
-    
-    files.value = filesFromServer;
+    const splittedPath = path.value.split("/");
+    const lastSplittedFile = splittedPath[splittedPath.length - 1].split(".");
+
+    if (lastSplittedFile.length === 1) {
+      const response = await getFiles(path.value);
+
+      files.value = response;
+    }
   });
 
   return {
