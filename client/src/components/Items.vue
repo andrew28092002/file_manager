@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <select name="" id="" class="disk">
+      <select name="" id="" class="disk" @change="onChange($event)">
         <option value="c">c</option>
         <option value="d">d</option>
         <option value="e">e</option>
@@ -49,7 +49,7 @@
 import { toRefs } from "vue";
 import Item from "./Item.vue";
 
-defineEmits(["choose"]);
+const emit = defineEmits(["choose"]);
 
 const props = defineProps<{
   path: string;
@@ -61,6 +61,10 @@ const props = defineProps<{
 }>();
 
 const { path, files } = toRefs(props);
+
+const onChange = (event: Event) => {
+  emit('choose', (event.target as HTMLSelectElement).value)
+}
 </script>
 
 <style scoped lang="scss">
