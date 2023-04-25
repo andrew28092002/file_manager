@@ -1,10 +1,10 @@
 <template>
-  <div class="row">
+  <button class="row">
     <div class="name">{{ name }}</div>
     <div class="type">{{ type }}</div>
     <div class="size">{{ size }}</div>
     <div class="date">{{ time }}</div>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">

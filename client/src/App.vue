@@ -65,7 +65,6 @@ rightStore.chooseNewPath("c/documents");
 }
 
 .card:last-child {
-  background-color: red;
   margin: 0;
 }
 

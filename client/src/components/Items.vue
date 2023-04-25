@@ -7,7 +7,7 @@
         <option value="e">e</option>
       </select>
       <div class="path">
-        <p>c/games/text.txt</p>
+        <p>{{path}}</p>
       </div>
     </div>
     <div class="files">
@@ -22,6 +22,10 @@ import { toRefs } from "vue";
 import Item from "./Item.vue";
 
 defineEmits(["choose"]);
+
+// const chooseNewPath = () => {
+//   emit()
+// }
 
 const props = defineProps<{
   path: string;
@@ -64,5 +68,10 @@ const { path, files } = toRefs(props);
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+}
+
+button:first-child{
+  border: none;
+  background-color: transparent;
 }
 </style>
