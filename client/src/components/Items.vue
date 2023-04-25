@@ -7,12 +7,17 @@
         <option value="e">e</option>
       </select>
       <div class="path">
-        <p>{{path}}</p>
+        <p>{{ path }}</p>
       </div>
     </div>
     <div class="files">
       <Item />
-      <Item v-for="file in files" :file="file" :key="file.name" />
+      <Item
+        v-for="file in files"
+        :file="file"
+        :key="file.name"
+        @click="$emit('choose', `${path}/${file.name}`)"
+      />
     </div>
   </div>
 </template>
@@ -22,10 +27,6 @@ import { toRefs } from "vue";
 import Item from "./Item.vue";
 
 defineEmits(["choose"]);
-
-// const chooseNewPath = () => {
-//   emit()
-// }
 
 const props = defineProps<{
   path: string;
@@ -70,7 +71,7 @@ const { path, files } = toRefs(props);
   flex-direction: column;
 }
 
-button:first-child{
+button:first-child {
   border: none;
   background-color: transparent;
 }
