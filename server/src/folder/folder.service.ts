@@ -45,12 +45,21 @@ export class FolderService {
   }
 
   copyFolder(pathFrom: string, pathTo: string) {
+    const pathFromArr = pathFrom.split(sep);
+    const pathToArr = pathFrom.split(sep);
+
+    if (pathFromArr[pathFromArr.length - 1] === pathToArr[pathToArr.length - 1])
+      throw new HttpException('Нельзя переместить директорию саму в себя', HttpStatus.BAD_REQUEST);
+
     try {
       const newPath = createPath(pathTo, pathFrom.split(sep).at(-1));
 
       if (!fs.existsSync(newPath)) fs.mkdirSync(newPath);
 
       fs.readdir(createPath(pathFrom), (error, files) => {
+        if (error)
+          throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+
         files.forEach((file) => {
           if (fs.statSync(createPath(pathFrom, file)).isDirectory()) {
             this.copyFolder(createPath(pathFrom, file), createPath(newPath));
