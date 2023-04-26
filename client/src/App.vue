@@ -45,29 +45,32 @@ leftStore.chooseNewPath("c");
 const rightStore = useRightFilesStore();
 rightStore.chooseNewPath("c/documents");
 
+const checkLast = (path: string, message: string) => {
+  const pathArray = path.split("/");
+  const lastFile = pathArray[pathArray.length - 1];
+
+  if (lastFile.split(".").length > 1) {
+    alert(message);
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const closeModal = () => {
   modal.value = "";
 };
 
 const createFolder = (side: string, name: string) => {
+  const message = "Нельзя создавать директорию внутри файла";
   if (side === "left") {
-    const pathArray = leftStore.path.split("/");
-    const lastFile = pathArray[pathArray.length - 1];
-
-    if (lastFile.split(".").length > 1) {
-      alert("Нельзя создавать директорию внутри файла");
-    } else {
+    if (checkLast(leftStore.path, message)) {
       axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
         path: `${leftStore.path}/${name}`,
       });
     }
   } else if (side === "right") {
-    const pathArray = rightStore.path.split("/");
-    const lastFile = pathArray[pathArray.length - 1];
-
-    if (lastFile.split(".").length > 1) {
-      alert("Нельзя создавать директорию внутри файла");
-    } else {
+    if (checkLast(rightStore.path, message)) {
       axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
         path: `${rightStore.path}/${name}`,
       });
@@ -77,31 +80,26 @@ const createFolder = (side: string, name: string) => {
 
 const createFile = (side: string, file: File) => {
   const formData = new FormData();
+  const message = "Нельзя создавать файл внутри файла";
   formData.append("file", file);
   if (side === "left") {
     formData.append("path", leftStore.path);
 
-    const pathArray = leftStore.path.split("/");
-    const lastFile = pathArray[pathArray.length - 1];
-
-    if (lastFile.split(".").length > 1) {
-      alert("Нельзя создавать файл внутри файла");
-    } else {
+    if (checkLast(leftStore.path, message)) {
       axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
     }
   } else if (side === "right") {
     formData.append("path", leftStore.path);
 
-    const pathArray = rightStore.path.split("/");
-    const lastFile = pathArray[pathArray.length - 1];
-
-    if (lastFile.split(".").length > 1) {
-      alert("Нельзя создавать файл внутри файла");
-    } else {
+    if (checkLast(rightStore.path, message)) {
       axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
     }
   }
 };
+
+const copyFolder = () => {};
+
+const copyFile = () => {};
 </script>
 
 <style scoped lang="scss">
