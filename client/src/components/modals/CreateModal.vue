@@ -61,22 +61,24 @@ const checkAndRemoveLast = (path: string) => {
   }
 };
 
-const createFolder = (path: string, name: string) => {
+const createFolder = async (path: string, name: string) => {
   const cuttedPath = checkAndRemoveLast(path);
 
-  axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
+  await axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
     path: `${cuttedPath}/${name}`,
   });
+  location.reload();
 };
 
-const createFile = (path: string, file: File) => {
+const createFile = async (path: string, file: File) => {
   const cuttedPath = checkAndRemoveLast(path);
 
   const formData = new FormData();
   formData.append("path", cuttedPath);
   formData.append("file", file);
 
-  axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+  await axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+  location.reload();
 };
 
 const changeFile = (event: Event) => {

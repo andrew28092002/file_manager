@@ -35,14 +35,15 @@ const checkIsFileOrFolder = (path: string) => {
   }
 };
 
-const submit = (path: string) => {
+const submit = async (path: string) => {
   try {
     const url =
       (checkIsFileOrFolder(path)
         ? import.meta.env.VITE_FILE_URL
         : import.meta.env.VITE_FOLDER_URL) + "/delete";
 
-    axios.post(url, { path });
+    await axios.post(url, { path });
+    location.reload()
   } catch (e) {
     console.log(e);
   }

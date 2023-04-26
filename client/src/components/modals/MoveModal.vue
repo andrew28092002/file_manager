@@ -45,7 +45,7 @@ const checkIsFileOrFolder = (path: string) => {
   }
 };
 
-const submit = (pathFrom: string, pathTo: string) => {
+const submit = async (pathFrom: string, pathTo: string) => {
   try {
     const endPath = checkLast(pathTo);
     const body = { pathFrom, pathTo: endPath };
@@ -55,7 +55,8 @@ const submit = (pathFrom: string, pathTo: string) => {
         : import.meta.env.VITE_FOLDER_URL) +
       (type?.value === "copy" ? "/copy" : "/move");
 
-    axios.post(url, body);
+    await axios.post(url, body);
+    location.reload()
   } catch (e) {
     console.log(e);
   }
