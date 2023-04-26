@@ -10,13 +10,12 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import { ref, toRefs } from "vue";
+import { toRefs } from "vue";
 
 const props = defineProps(["leftPath", "rightPath"]);
 const emit = defineEmits(["close"]);
 
 const { leftPath, rightPath } = toRefs(props);
-
 const checkLast = (path: string) => {
   const pathArray = path.split("/");
   const lastFile = pathArray[pathArray.length - 1];
@@ -55,7 +54,9 @@ const submit = (pathFrom: string, pathTo: string) => {
 };
 
 const choosePath = (pathTo: string, pathFrom: string) => {
+  console.log(pathTo, pathFrom)
   submit(pathTo, pathFrom);
+  emit('close')
 };
 </script>
 
