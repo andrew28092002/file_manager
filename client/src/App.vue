@@ -57,6 +57,17 @@ const checkLast = (path: string, message: string) => {
   }
 };
 
+const checkAndRemoveLast = (path: string) => {
+  const pathArray = path.split("/");
+  const lastFile = pathArray[pathArray.length - 1];
+
+  if (lastFile.split(".").length > 1) {
+    return pathArray.slice(-1).join("/");
+  } else {
+    return path;
+  }
+};
+
 const closeModal = () => {
   modal.value = "";
 };
@@ -97,9 +108,41 @@ const createFile = (side: string, file: File) => {
   }
 };
 
-const copyFolder = () => {};
+const copyFolder = (side: string) => {
+  if (side === "left") {
+    const pathTo = checkAndRemoveLast(leftStore.path);
 
-const copyFile = () => {};
+    axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
+      pathTo,
+      pathFrom: rightStore.path,
+    });
+  } else if (side === "right") {
+    const pathTo = checkAndRemoveLast(rightStore.path);
+
+    axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
+      pathTo,
+      pathFrom: leftStore.path,
+    });
+  }
+};
+
+const copyFile = (side: string) => {
+  if (side === "left") {
+    const pathTo = checkAndRemoveLast(leftStore.path);
+
+    axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
+      pathTo,
+      pathFrom: rightStore.path,
+    });
+  } else if (side === "right") {
+    const pathTo = checkAndRemoveLast(rightStore.path);
+
+    axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
+      pathTo,
+      pathFrom: leftStore.path,
+    });
+  }
+};
 </script>
 
 <style scoped lang="scss">
