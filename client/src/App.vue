@@ -20,6 +20,12 @@
       :leftPath="leftStore.path"
       :rightPath="rightStore.path"
     />
+    <DeleteModal
+      v-if="modal === 'delete'"
+      @close="closeModal"
+      :leftPath="leftStore.path"
+      :rightPath="rightStore.path"
+    />
     <div class="container">
       <Items
         class="card"
@@ -47,6 +53,7 @@
 import Items from "./components/Items.vue";
 import CreateModal from "./components/modals/CreateModal.vue";
 import MoveModal from "./components/modals/MoveModal.vue";
+import DeleteModal from "./components/modals/DeleteModal.vue";
 import { useLeftFilesStore } from "./stores/leftFiles";
 import { useRightFilesStore } from "./stores/rightFiles";
 import { ref } from "vue";
