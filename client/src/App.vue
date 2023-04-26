@@ -51,13 +51,27 @@ const closeModal = () => {
 
 const createFolder = (side: string, name: string) => {
   if (side === "left") {
-    axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
-      path: `${leftStore.path}/${name}`,
-    });
+    const pathArray = leftStore.path.split("/");
+    const lastFile = pathArray[pathArray.length - 1];
+
+    if (lastFile.split(".").length > 1) {
+      alert("Нельзя создавать директорию внутри файла");
+    } else {
+      axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
+        path: `${leftStore.path}/${name}`,
+      });
+    }
   } else if (side === "right") {
-    axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
-      path: `${rightStore.path}/${name}`,
-    });
+    const pathArray = rightStore.path.split("/");
+    const lastFile = pathArray[pathArray.length - 1];
+
+    if (lastFile.split(".").length > 1) {
+      alert("Нельзя создавать директорию внутри файла");
+    } else {
+      axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
+        path: `${rightStore.path}/${name}`,
+      });
+    }
   }
 };
 
@@ -66,10 +80,26 @@ const createFile = (side: string, file: File) => {
   formData.append("file", file);
   if (side === "left") {
     formData.append("path", leftStore.path);
-    axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+
+    const pathArray = leftStore.path.split("/");
+    const lastFile = pathArray[pathArray.length - 1];
+
+    if (lastFile.split(".").length > 1) {
+      alert("Нельзя создавать файл внутри файла");
+    } else {
+      axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+    }
   } else if (side === "right") {
     formData.append("path", leftStore.path);
-    axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+
+    const pathArray = rightStore.path.split("/");
+    const lastFile = pathArray[pathArray.length - 1];
+
+    if (lastFile.split(".").length > 1) {
+      alert("Нельзя создавать файл внутри файла");
+    } else {
+      axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+    }
   }
 };
 </script>
