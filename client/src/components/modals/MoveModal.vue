@@ -1,7 +1,10 @@
 <template>
   <div class="modal-wrapper" @click.self="emit('close')">
     <div class="modal">
-      <h3>Вы хотите скопировать из {{ leftPath }} в {{ rightPath }}</h3>
+      <h3>
+        Вы хотите {{ type === "copy" ? "скопировать" : "переместить" }} из
+        {{ leftPath }} в {{ rightPath }}?
+      </h3>
       <button @click="choosePath(leftPath, rightPath)">yes</button>
       <button @click="choosePath(rightPath, leftPath)">backwards</button>
     </div>
@@ -12,10 +15,14 @@
 import axios from "axios";
 import { toRefs } from "vue";
 
-const props = defineProps(["leftPath", "rightPath"]);
+const props = defineProps(["leftPath", "rightPath", "type"]);
 const emit = defineEmits(["close"]);
 
-const { leftPath, rightPath } = toRefs(props);
+const { leftPath, rightPath, type } = toRefs<{
+  leftPath?: string;
+  rightPath?: string;
+  type?: "move" | "copy";
+}>(props);
 const checkLast = (path: string) => {
   const pathArray = path.split("/");
   const lastFile = pathArray[pathArray.length - 1];
@@ -45,7 +52,8 @@ const submit = (pathFrom: string, pathTo: string) => {
     const url =
       (checkIsFileOrFolder(pathFrom)
         ? import.meta.env.VITE_FILE_URL
-        : import.meta.env.VITE_FOLDER_URL) + "/copy";
+        : import.meta.env.VITE_FOLDER_URL) +
+      (type?.value === "copy" ? "/copy" : "/move");
 
     axios.post(url, body);
   } catch (e) {
@@ -54,9 +62,9 @@ const submit = (pathFrom: string, pathTo: string) => {
 };
 
 const choosePath = (pathTo: string, pathFrom: string) => {
-  console.log(pathTo, pathFrom)
+  console.log(pathTo, pathFrom);
   submit(pathTo, pathFrom);
-  emit('close')
+  emit("close");
 };
 </script>
 

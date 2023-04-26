@@ -6,9 +6,17 @@
       :leftPath="leftStore.path"
       :rightPath="rightStore.path"
     />
-    <CopyModal
+    <MoveModal
       v-if="modal === 'copy'"
       @close="closeModal"
+      :type="'copy'"
+      :leftPath="leftStore.path"
+      :rightPath="rightStore.path"
+    />
+    <MoveModal
+      v-if="modal === 'move'"
+      @close="closeModal"
+      :type="'move'"
       :leftPath="leftStore.path"
       :rightPath="rightStore.path"
     />
@@ -38,7 +46,7 @@
 <script setup lang="ts">
 import Items from "./components/Items.vue";
 import CreateModal from "./components/modals/CreateModal.vue";
-import CopyModal from "./components/modals/CopyModal.vue";
+import MoveModal from "./components/modals/MoveModal.vue";
 import { useLeftFilesStore } from "./stores/leftFiles";
 import { useRightFilesStore } from "./stores/rightFiles";
 import { ref } from "vue";
