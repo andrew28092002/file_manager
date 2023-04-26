@@ -3,8 +3,8 @@
     <CreateModal
       v-if="modal === 'create'"
       @close="closeModal"
-      @createFolder="createFolder"
-      @createFile="createFile"
+      :leftPath="leftStore.path"
+      :rightPath="rightStore.path"
     />
     <div class="container">
       <Items
@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import Items from "./components/Items.vue";
 import CreateModal from "./components/modals/CreateModal.vue";
 import { useLeftFilesStore } from "./stores/leftFiles";
@@ -45,104 +44,45 @@ leftStore.chooseNewPath("c");
 const rightStore = useRightFilesStore();
 rightStore.chooseNewPath("c/documents");
 
-const checkLast = (path: string, message: string) => {
-  const pathArray = path.split("/");
-  const lastFile = pathArray[pathArray.length - 1];
-
-  if (lastFile.split(".").length > 1) {
-    alert(message);
-    return false;
-  } else {
-    return true;
-  }
-};
-
-const checkAndRemoveLast = (path: string) => {
-  const pathArray = path.split("/");
-  const lastFile = pathArray[pathArray.length - 1];
-
-  if (lastFile.split(".").length > 1) {
-    return pathArray.slice(-1).join("/");
-  } else {
-    return path;
-  }
-};
-
 const closeModal = () => {
   modal.value = "";
 };
 
-const createFolder = (side: string, name: string) => {
-  const message = "Нельзя создавать директорию внутри файла";
-  if (side === "left") {
-    if (checkLast(leftStore.path, message)) {
-      axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
-        path: `${leftStore.path}/${name}`,
-      });
-    }
-  } else if (side === "right") {
-    if (checkLast(rightStore.path, message)) {
-      axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
-        path: `${rightStore.path}/${name}`,
-      });
-    }
-  }
-};
+// const copyFolder = (side: string) => {
+//   if (side === "left") {
+//     const pathTo = checkAndRemoveLast(leftStore.path);
 
-const createFile = (side: string, file: File) => {
-  const formData = new FormData();
-  const message = "Нельзя создавать файл внутри файла";
-  formData.append("file", file);
-  if (side === "left") {
-    formData.append("path", leftStore.path);
+//     axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
+//       pathTo,
+//       pathFrom: rightStore.path,
+//     });
+//   } else if (side === "right") {
+//     const pathTo = checkAndRemoveLast(rightStore.path);
 
-    if (checkLast(leftStore.path, message)) {
-      axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
-    }
-  } else if (side === "right") {
-    formData.append("path", leftStore.path);
+//     axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
+//       pathTo,
+//       pathFrom: leftStore.path,
+//     });
+//   }
+// };
 
-    if (checkLast(rightStore.path, message)) {
-      axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
-    }
-  }
-};
+// const copyFile = (side: string) => {
+//   if (side === "left") {
+//     const pathTo = checkAndRemoveLast(leftStore.path);
 
-const copyFolder = (side: string) => {
-  if (side === "left") {
-    const pathTo = checkAndRemoveLast(leftStore.path);
+//     axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
+//       pathTo,
+//       pathFrom: rightStore.path,
+//     });
+//   } else if (side === "right") {
+//     const pathTo = checkAndRemoveLast(rightStore.path);
 
-    axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
-      pathTo,
-      pathFrom: rightStore.path,
-    });
-  } else if (side === "right") {
-    const pathTo = checkAndRemoveLast(rightStore.path);
-
-    axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
-      pathTo,
-      pathFrom: leftStore.path,
-    });
-  }
-};
-
-const copyFile = (side: string) => {
-  if (side === "left") {
-    const pathTo = checkAndRemoveLast(leftStore.path);
-
-    axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
-      pathTo,
-      pathFrom: rightStore.path,
-    });
-  } else if (side === "right") {
-    const pathTo = checkAndRemoveLast(rightStore.path);
-
-    axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
-      pathTo,
-      pathFrom: leftStore.path,
-    });
-  }
-};
+//     axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
+//       pathTo,
+//       pathFrom: leftStore.path,
+//     });
+//   }
+// };
 </script>
 
 <style scoped lang="scss">
