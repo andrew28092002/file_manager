@@ -1,15 +1,19 @@
 <template>
   <div class="content">
+    <CreateModal
+      v-if="modal === 'create'"
+      @close="closeModal"
+      @createFolder="createFolder"
+      @createFile="createFile"
+    />
     <div class="container">
       <Items
-        v-if="leftStore.files.length > 0"
         class="card"
         @choose="leftStore.chooseNewPath"
         :path="leftStore.path"
         :files="leftStore.files"
       />
       <Items
-        v-if="rightStore.files.length > 0"
         class="card"
         @choose="rightStore.chooseNewPath"
         :path="rightStore.path"
@@ -17,7 +21,7 @@
       />
     </div>
     <div class="footer">
-      <button>Создать</button>
+      <button @click="modal = 'create'">Создать</button>
       <button>Скопировать</button>
       <button>Переместить</button>
       <button>Удалить</button>
@@ -26,9 +30,14 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import Items from "./components/Items.vue";
+import CreateModal from "./components/modals/CreateModal.vue";
 import { useLeftFilesStore } from "./stores/leftFiles";
 import { useRightFilesStore } from "./stores/rightFiles";
+import { ref } from "vue";
+
+const modal = ref();
 
 const leftStore = useLeftFilesStore();
 leftStore.chooseNewPath("c");
@@ -36,6 +45,33 @@ leftStore.chooseNewPath("c");
 const rightStore = useRightFilesStore();
 rightStore.chooseNewPath("c/documents");
 
+const closeModal = () => {
+  modal.value = "";
+};
+
+const createFolder = (side: string, name: string) => {
+  if (side === "left") {
+    axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
+      path: `${leftStore.path}/${name}`,
+    });
+  } else if (side === "right") {
+    axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
+      path: `${rightStore.path}/${name}`,
+    });
+  }
+};
+
+const createFile = (side: string, file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  if (side === "left") {
+    formData.append("path", leftStore.path);
+    axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+  } else if (side === "right") {
+    formData.append("path", leftStore.path);
+    axios.post(import.meta.env.VITE_FILE_URL + "/create", formData);
+  }
+};
 </script>
 
 <style scoped lang="scss">

@@ -30,7 +30,7 @@
         :file="file"
         :key="file.name"
         @click="
-          path.split('/')[path.split('/').length - 1].length == 1
+          path.split('/')[path.split('/').length - 1].split('.').length == 1
             ? $emit('choose', `${path}/${file.name}`)
             : $emit(
                 'choose',
