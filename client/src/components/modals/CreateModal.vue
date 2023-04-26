@@ -31,7 +31,10 @@ import { ref, toRefs } from "vue";
 const props = defineProps(["leftPath", "rightPath"]);
 const emit = defineEmits(["close"]);
 
-const { leftPath, rightPath } = toRefs(props);
+const { leftPath, rightPath } = toRefs<{
+  leftPath?: string;
+  rightPath?: string;
+}>(props);
 
 const file = ref();
 const step = ref("side");
