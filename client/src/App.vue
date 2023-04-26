@@ -6,6 +6,12 @@
       :leftPath="leftStore.path"
       :rightPath="rightStore.path"
     />
+    <CopyModal
+      v-if="modal === 'copy'"
+      @close="closeModal"
+      :leftPath="leftStore.path"
+      :rightPath="rightStore.path"
+    />
     <div class="container">
       <Items
         class="card"
@@ -22,9 +28,9 @@
     </div>
     <div class="footer">
       <button @click="modal = 'create'">Создать</button>
-      <button>Скопировать</button>
-      <button>Переместить</button>
-      <button>Удалить</button>
+      <button @click="modal = 'copy'">Скопировать</button>
+      <button @click="modal = 'move'">Переместить</button>
+      <button @click="modal = 'delete'">Удалить</button>
     </div>
   </div>
 </template>
@@ -32,6 +38,7 @@
 <script setup lang="ts">
 import Items from "./components/Items.vue";
 import CreateModal from "./components/modals/CreateModal.vue";
+import CopyModal from "./components/modals/CopyModal.vue";
 import { useLeftFilesStore } from "./stores/leftFiles";
 import { useRightFilesStore } from "./stores/rightFiles";
 import { ref } from "vue";
@@ -47,42 +54,6 @@ rightStore.chooseNewPath("c/documents");
 const closeModal = () => {
   modal.value = "";
 };
-
-// const copyFolder = (side: string) => {
-//   if (side === "left") {
-//     const pathTo = checkAndRemoveLast(leftStore.path);
-
-//     axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
-//       pathTo,
-//       pathFrom: rightStore.path,
-//     });
-//   } else if (side === "right") {
-//     const pathTo = checkAndRemoveLast(rightStore.path);
-
-//     axios.post(import.meta.env.VITE_FOLDER_URL + "/copy", {
-//       pathTo,
-//       pathFrom: leftStore.path,
-//     });
-//   }
-// };
-
-// const copyFile = (side: string) => {
-//   if (side === "left") {
-//     const pathTo = checkAndRemoveLast(leftStore.path);
-
-//     axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
-//       pathTo,
-//       pathFrom: rightStore.path,
-//     });
-//   } else if (side === "right") {
-//     const pathTo = checkAndRemoveLast(rightStore.path);
-
-//     axios.post(import.meta.env.VITE_FILE_URL + "/copy", {
-//       pathTo,
-//       pathFrom: leftStore.path,
-//     });
-//   }
-// };
 </script>
 
 <style scoped lang="scss">
