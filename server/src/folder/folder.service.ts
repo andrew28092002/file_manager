@@ -28,8 +28,9 @@ export class FolderService {
         const stat = fs.statSync(createPath(path, file));
 
         const info = { name: file };
+        info['time'] = Number(stat.mtime);
+
         if (!stat.isDirectory()) {
-          info['time'] = Number(stat.mtime);
           info['size'] = stat.size;
         } else {
           info['size'] = countSize(createPath(path, file));
@@ -49,7 +50,10 @@ export class FolderService {
     const pathToArr = pathFrom.split(sep);
 
     if (pathFromArr[pathFromArr.length - 1] === pathToArr[pathToArr.length - 1])
-      throw new HttpException('Нельзя переместить директорию саму в себя', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Нельзя переместить директорию саму в себя',
+        HttpStatus.BAD_REQUEST,
+      );
 
     try {
       const newPath = createPath(pathTo, pathFrom.split(sep).at(-1));

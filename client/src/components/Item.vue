@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { computed, toRefs } from "vue";
+import { convert } from "./../features/convert";
 
 const props = defineProps<{
   file?: {
@@ -29,7 +30,9 @@ const name = computed({
 
 const size = computed({
   get() {
-    return file?.value?.size || "size";
+    const tmp = file?.value?.size as number;
+  
+    return !isNaN(tmp) ? convert(tmp) : "size";
   },
   set() {},
 });
@@ -49,7 +52,10 @@ const type = computed({
 
 const time = computed({
   get() {
-    return file?.value?.time?.toLocaleString() || "time";
+    const tmp = file?.value?.time as Date
+    const date = new Date(tmp)
+  
+    return tmp ? date.toLocaleString(): "time";
   },
   set() {},
 });
