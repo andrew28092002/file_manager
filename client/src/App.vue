@@ -64,7 +64,7 @@ const leftStore = useLeftFilesStore();
 leftStore.chooseNewPath("c");
 
 const rightStore = useRightFilesStore();
-rightStore.chooseNewPath("c/documents");
+rightStore.chooseNewPath("c");
 
 const closeModal = () => {
   modal.value = "";

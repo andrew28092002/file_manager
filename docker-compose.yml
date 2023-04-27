@@ -1,0 +1,31 @@
+services:
+  server:
+    image: file-server
+    build: ./server
+    container_name: file-server
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    networks: 
+      - default
+    
+    
+  client:
+    image: file-client
+    build:
+      context: ./client
+    container_name: file-client
+    env_file:
+      - ./client/.env.production
+    ports:
+      - "5000:80"
+    links:
+      - server
+    environment:
+      - NODE_ENV=development
+    networks: 
+      - default
+
+networks: 
+  default:
