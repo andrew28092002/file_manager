@@ -54,8 +54,6 @@ import Items from "./components/Items.vue";
 import CreateModal from "./components/modals/CreateModal.vue";
 import MoveModal from "./components/modals/MoveModal.vue";
 import DeleteModal from "./components/modals/DeleteModal.vue";
-// import { useLeftFilesStore } from "./stores/leftFiles";
-// import { useRightFilesStore } from "./stores/rightFiles";
 import { useLeftFilesStore, useRightFilesStore } from "./stores/files";
 import { ref } from "vue";
 
