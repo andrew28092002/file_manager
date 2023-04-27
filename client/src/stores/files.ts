@@ -1,6 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
+import { checkLast } from "./../features/checkLast";
 
 const createUseStore = <Id extends string>(id: Id) =>
   defineStore(id, () => {
@@ -27,6 +28,8 @@ const createUseStore = <Id extends string>(id: Id) =>
     };
 
     const chooseNewPath = (newPath: string) => {
+      const cuttedPath = checkLast(newPath);
+      localStorage.setItem(id, cuttedPath);
       if (newPath !== path.value) path.value = newPath;
     };
 
@@ -49,6 +52,5 @@ const createUseStore = <Id extends string>(id: Id) =>
     };
   });
 
-
-export const useLeftFilesStore = createUseStore('leftFiles')
-export const useRightFilesStore = createUseStore('rightStore')
+export const useLeftFilesStore = createUseStore("leftFiles");
+export const useRightFilesStore = createUseStore("rightStore");

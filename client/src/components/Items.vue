@@ -1,7 +1,13 @@
 <template>
   <div class="container">
     <div class="header">
-      <select name="" id="" class="disk" @change="onChange($event)">
+      <select
+        name=""
+        id=""
+        class="disk"
+        :value="pathArray[0]"
+        @change="onChange($event)"
+      >
         <option value="c">c</option>
         <option value="d">d</option>
         <option value="e">e</option>
@@ -10,16 +16,8 @@
         <a
           href="#"
           v-for="(item, index) in path.split('/')"
-          @click="
-            $emit(
-              'choose',
-              path
-                .split('/')
-                .slice(0, index + 1)
-                .join('/')
-            )
-          "
-          >{{ `${item}${index === path.split("/").length - 1 ? "" : "/"} ` }}</a
+          @click="$emit('choose', pathArray.slice(0, index + 1).join('/'))"
+          >{{ `${item}${index === pathArray.length - 1 ? "" : "/"} ` }}</a
         >
       </div>
     </div>
@@ -30,12 +28,11 @@
         :file="file"
         :key="file.name"
         @click="
-          path.split('/')[path.split('/').length - 1].split('.').length == 1
+          pathArray[pathArray.length - 1].split('.').length == 1
             ? $emit('choose', `${path}/${file.name}`)
             : $emit(
                 'choose',
-                `${path
-                  .split('/')
+                `${pathArray
                   .filter((item) => item.split('.').length === 1)
                   .join('/')}/${file.name}`
               )
@@ -46,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs } from "vue";
+import { computed, toRefs } from "vue";
 import Item from "./Item.vue";
 
 const emit = defineEmits(["choose"]);
@@ -63,8 +60,15 @@ const props = defineProps<{
 const { path, files } = toRefs(props);
 
 const onChange = (event: Event) => {
-  emit('choose', (event.target as HTMLSelectElement).value)
-}
+  emit("choose", (event.target as HTMLSelectElement).value);
+};
+
+const pathArray = computed({
+  get() {
+    return path.value.split("/");
+  },
+  set() {},
+});
 </script>
 
 <style scoped lang="scss">

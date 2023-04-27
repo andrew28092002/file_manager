@@ -55,15 +55,17 @@ import CreateModal from "./components/modals/CreateModal.vue";
 import MoveModal from "./components/modals/MoveModal.vue";
 import DeleteModal from "./components/modals/DeleteModal.vue";
 import { useLeftFilesStore, useRightFilesStore } from "./stores/files";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const modal = ref();
 
 const leftStore = useLeftFilesStore();
-leftStore.chooseNewPath("c");
-
 const rightStore = useRightFilesStore();
-rightStore.chooseNewPath("c");
+
+onMounted(() => {
+  leftStore.chooseNewPath(localStorage.getItem("leftFiles") || "c");
+  rightStore.chooseNewPath(localStorage.getItem('rightFiles') || "d")
+});
 
 const closeModal = () => {
   modal.value = "";

@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { toRefs } from "vue";
+import { checkLast } from './../../features/checkLast'
 
 const props = defineProps(["leftPath", "rightPath", "type"]);
 const emit = defineEmits(["close"]);
@@ -23,16 +24,6 @@ const { leftPath, rightPath, type } = toRefs<{
   rightPath?: string;
   type?: "move" | "copy";
 }>(props);
-const checkLast = (path: string) => {
-  const pathArray = path.split("/");
-  const lastFile = pathArray[pathArray.length - 1];
-
-  if (lastFile.split(".").length > 1) {
-    return pathArray.slice(-1).join("/");
-  } else {
-    return path;
-  }
-};
 
 const checkIsFileOrFolder = (path: string) => {
   const pathArray = path.split("/");

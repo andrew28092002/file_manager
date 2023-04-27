@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { ref, toRefs } from "vue";
+import { checkLast } from './../../features/checkLast'
 
 const props = defineProps(["leftPath", "rightPath"]);
 const emit = defineEmits(["close"]);
@@ -53,19 +54,8 @@ const chooseType = (resultType: "file" | "directory") => {
   step.value = resultType;
 };
 
-const checkAndRemoveLast = (path: string) => {
-  const pathArray = path.split("/");
-  const lastFile = pathArray[pathArray.length - 1];
-
-  if (lastFile.split(".").length > 1) {
-    return pathArray.slice(-1).join("/");
-  } else {
-    return path;
-  }
-};
-
 const createFolder = async (path: string, name: string) => {
-  const cuttedPath = checkAndRemoveLast(path);
+  const cuttedPath = checkLast(path);
 
   await axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
     path: `${cuttedPath}/${name}`,
@@ -74,7 +64,7 @@ const createFolder = async (path: string, name: string) => {
 };
 
 const createFile = async (path: string, file: File) => {
-  const cuttedPath = checkAndRemoveLast(path);
+  const cuttedPath = checkLast(path);
 
   const formData = new FormData();
   formData.append("path", cuttedPath);
