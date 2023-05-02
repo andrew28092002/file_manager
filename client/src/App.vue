@@ -63,6 +63,7 @@ const leftStore = useLeftFilesStore();
 const rightStore = useRightFilesStore();
 
 onMounted(() => {
+  /** почему инициализация не в сторе? */
   leftStore.chooseNewPath(localStorage.getItem("leftFiles") || "c");
   rightStore.chooseNewPath(localStorage.getItem('rightFiles') || "d")
 });

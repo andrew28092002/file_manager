@@ -1,3 +1,5 @@
+/** сервис должен быть отвязан от транспорта  HttpException,HttpStatus говорят о  явной работе с HTTP, 
+ * что произойдёт если мы начнём работать по Websocket и начнём получать такие ошибки? */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { resolve, sep } from 'path';
 import * as fs from 'fs';
@@ -19,6 +21,7 @@ export class FolderService {
     }
   }
 
+  /** не указан возвращаемый тип  */
   getFolder(path: string) {
     try {
       const folderInner = fs.readdirSync(createPath(path));
@@ -26,10 +29,10 @@ export class FolderService {
 
       folderInner.forEach((file) => {
         const stat = fs.statSync(createPath(path, file));
-
+        /** какой тип? */
         const info = { name: file };
         info['time'] = Number(stat.mtime);
-
+         /** для таких вещей лучше тренарник  */
         if (!stat.isDirectory()) {
           info['size'] = stat.size;
         } else {

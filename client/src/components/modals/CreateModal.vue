@@ -57,6 +57,7 @@ const chooseType = (resultType: "file" | "directory") => {
 const createFolder = async (path: string, name: string) => {
   const cuttedPath = checkLast(path);
 
+  /** axios лучше обернуть и/или принитить чеерз axios.create */
   await axios.post(import.meta.env.VITE_FOLDER_URL + "/create", {
     path: `${cuttedPath}/${name}`,
   });
